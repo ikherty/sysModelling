@@ -1,186 +1,82 @@
-k=2500
-print("коэффициент=",k)
+k=2500 #число элементов
+r=10 #кол-во интервалов
+p=0.1 #теоретическая вероятность попадания в каждый интервал
+array=[] #массив псевдослучайных чисел
+l_aper=0 #длина апериодичности
+l_per=0 #длина периода
+p_i =[] #количество попаданий в каждый интервал
+X2=0 #хи-вквадрат
 
-# const
-#   n=300;
-#   r=9;//Кол-во интервалов
-#   start : array [1..5] of extended =
-#           (0.60545510,0.54950338,0.98967142,0.32915874,0.20649821);
-# var
-#   GammaN,hi2 : extended;
-#    h,i,j,k,m : word;
-#        L,P,T : TextFile;
-#        found : boolean;
-#           it : array [1..n] of extended;
-#            G : array [1..r] of extended; //Гистограмма(массив попаданий в интервалы)
-#
-# procedure SetStart;//Устанавливает GammaN
-# begin
-#   GammaN:=start[i]*IntPower(10,2*k);//IntPower - Функция возводит X в целочисленную степень Y
-#   GammaN:=Round(GammaN);//Round округляет число с плавающей запятой до целого значения.
-#   GammaN:=GammaN*IntPower(10,-2*k);
-# end;
-#
-# procedure MyRandom;//формула(2)
-# begin
-#   GammaN:=IntPower(10,3*k)*GammaN*GammaN;
-#   GammaN:=Int(GammaN)*IntPower(10,-2*k);//Int - Целая часть числа с плавающей точкой
-#   GammaN:=Frac(GammaN);//Дробная часть числа с плавающей точкой
-# end;
-#
-# BEGIN
-#  AssignFile(L,'L.txt');Rewrite(L);write(L,'  ');
-#  AssignFile(P,'P.txt');Rewrite(P);write(P,'  ');
-#  AssignFile(T,'T.txt');Rewrite(T);
-#  for i:=1 to 5 do begin write(L,start[i]:12:8); write(P,start[i]:12:8); end;
-#  writeln(L);writeln(P);
-#  for k:=1 to 4 do
-#  begin
-#    write(L,k*2:2);write(P,k*2:2);
-#    for i:=1 to 5 do
-#    begin
-#      for j:=1 to r do G[j]:=0;
-#      writeln(T,k*2,' ',i);
-#      SetStart;
-#      it[1]:=GammaN;
-#      //Trunc возвращает целочисленную часть числа с плавающей точкой
-#      h:=Trunc(GammaN*r)+1;//Номер интервала
-#      G[h]:=G[h]+1.0;//Сколько в какой интервал
-#      write(T,GammaN:k*2+4:k*2);
-#      for j:=2 to n do
-#      begin
-#        MyRandom;
-#        h:=Trunc(GammaN*r)+1;
-#        G[h]:=G[h]+1.0;
-#        it[j]:=GammaN;
-#        write(T,it[j]:k*2+4:k*2);
-#        if (j mod 10)=0 then writeln(T);
-#      end;
-#      //Считаем хи-квадрат (6)
-#      hi2:=0.0;
-#      for j:=1 to r do hi2:=hi2+sqr(G[j]-n/r)/(n/r);
-#      j:=0;
-#      found:=false;
-#      //Поиск совпадений
-#      while (j<n) and (not found) do
-#      begin
-#        inc(j);
-#        m:=j;
-#        while (m<=n) and (not found) do
-#        begin
-#          inc(m);
-#          if (it[j]=it[m]) then found:=true;
-#        end;
-#      end;
-#      //Вывод
-#      if found then
-#      begin
-#        write(L,m-1:12);
-#        write(P,m-j:12);
-#        writeln(T,'L=',m-1,' P=',m-j);
-#      end
-#       else
-#       begin
-#         write(L,n:12);
-#         write(P,n:12);
-#         writeln(T,n);
-#       end;
-#      write(T,'Gistogram = (');for j:=1 to r do write(T,G[j]:4:0);writeln(T,' )');
-#      writeln(T,'hi^2=',hi2:8:2);
-#      writeln(T);
-#    end;
-#    writeln(L);writeln(P);
-#  end;
-#  close(L);close(P);close(T);
-# END.const
-#   n=300;
-#   r=9;//Кол-во интервалов
-#   start : array [1..5] of extended =
-#           (0.60545510,0.54950338,0.98967142,0.32915874,0.20649821);
-# var
-#   GammaN,hi2 : extended;
-#    h,i,j,k,m : word;
-#        L,P,T : TextFile;
-#        found : boolean;
-#           it : array [1..n] of extended;
-#            G : array [1..r] of extended; //Гистограмма(массив попаданий в интервалы)
-#
-# procedure SetStart;//Устанавливает GammaN
-# begin
-#   GammaN:=start[i]*IntPower(10,2*k);//IntPower - Функция возводит X в целочисленную степень Y
-#   GammaN:=Round(GammaN);//Round округляет число с плавающей запятой до целого значения.
-#   GammaN:=GammaN*IntPower(10,-2*k);
-# end;
-#
-# procedure MyRandom;//формула(2)
-# begin
-#   GammaN:=IntPower(10,3*k)*GammaN*GammaN;
-#   GammaN:=Int(GammaN)*IntPower(10,-2*k);//Int - Целая часть числа с плавающей точкой
-#   GammaN:=Frac(GammaN);//Дробная часть числа с плавающей точкой
-# end;
-#
-# BEGIN
-#  AssignFile(L,'L.txt');Rewrite(L);write(L,'  ');
-#  AssignFile(P,'P.txt');Rewrite(P);write(P,'  ');
-#  AssignFile(T,'T.txt');Rewrite(T);
-#  for i:=1 to 5 do begin write(L,start[i]:12:8); write(P,start[i]:12:8); end;
-#  writeln(L);writeln(P);
-#  for k:=1 to 4 do
-#  begin
-#    write(L,k*2:2);write(P,k*2:2);
-#    for i:=1 to 5 do
-#    begin
-#      for j:=1 to r do G[j]:=0;
-#      writeln(T,k*2,' ',i);
-#      SetStart;
-#      it[1]:=GammaN;
-#      //Trunc возвращает целочисленную часть числа с плавающей точкой
-#      h:=Trunc(GammaN*r)+1;//Номер интервала
-#      G[h]:=G[h]+1.0;//Сколько в какой интервал
-#      write(T,GammaN:k*2+4:k*2);
-#      for j:=2 to n do
-#      begin
-#        MyRandom;
-#        h:=Trunc(GammaN*r)+1;
-#        G[h]:=G[h]+1.0;
-#        it[j]:=GammaN;
-#        write(T,it[j]:k*2+4:k*2);
-#        if (j mod 10)=0 then writeln(T);
-#      end;
-#      //Считаем хи-квадрат (6)
-#      hi2:=0.0;
-#      for j:=1 to r do hi2:=hi2+sqr(G[j]-n/r)/(n/r);
-#      j:=0;
-#      found:=false;
-#      //Поиск совпадений
-#      while (j<n) and (not found) do
-#      begin
-#        inc(j);
-#        m:=j;
-#        while (m<=n) and (not found) do
-#        begin
-#          inc(m);
-#          if (it[j]=it[m]) then found:=true;
-#        end;
-#      end;
-#      //Вывод
-#      if found then
-#      begin
-#        write(L,m-1:12);
-#        write(P,m-j:12);
-#        writeln(T,'L=',m-1,' P=',m-j);
-#      end
-#       else
-#       begin
-#         write(L,n:12);
-#         write(P,n:12);
-#         writeln(T,n);
-#       end;
-#      write(T,'Gistogram = (');for j:=1 to r do write(T,G[j]:4:0);writeln(T,' )');
-#      writeln(T,'hi^2=',hi2:8:2);
-#      writeln(T);
-#    end;
-#    writeln(L);writeln(P);
-#  end;
-#  close(L);close(P);close(T);
-# END.
+def fraction(x):
+    # функция для расчета дробной части
+    return x - int(x)
+
+def fillArray():
+    # функция для заполнения массива
+    y0=float(input("Введите гамма-нулевое: "))
+    accrs=int(input("Введите количество знаков после запятой: "))
+    for i in range(k):
+        array.append(y0)
+        y0=(10 ** -accrs)*int((10 ** accrs)*fraction(float(((1-y0) ** 3)*(10 ** accrs)))) #метод середины квадратов
+    print("Массив заполнен псевдослучайными числами.")
+
+def periodLength():
+    global l_aper, l_per
+    print("Определение длины периода и апериодичности.")
+    flag=True #пока в последовательности будут одинаковые элементы
+    for i in range(k):
+        for j in range(i+1, k):
+            if(abs(array[i]-array[j])<0.00000001):#сравниваем
+                print("Cовпадение в ", i, "-ом и ", j, "-ом элементах: ", array[i], " и ", array[j])
+                l_aper = j
+                l_per = j-i
+                flag=False
+            if not flag:
+                break
+        if flag:
+            #если нет одинаковых элементов, длина апериодичности = длине последовательности
+            l_aper=k
+            l_per=0
+        if not flag:
+            break
+    print("Период: ", l_per)
+    print("Апериодичность: ", l_aper)
+
+def calc_pi():
+    print("Рассчет количества попаданий в каждый интервал.")
+    for i in range(r):
+        #обнуляем весь массив для дальнейших рассчетов
+        p_i.append(0)
+    print("[ ", end = ' ')
+    for i in range(r):
+        for j in range(l_aper):
+            if (array[j]>(i*p) and array[j]<((i+1)*p)):
+                #например, if (mass[i]>0.1 && mass[i]<0.2)
+                p_i[i]+=1
+    for i in range(r):
+        print(p_i[i], end = ' ')
+        #выводим результат на экран
+    print(" ] ")
+
+def calc_X2():
+    print("Рассчет Х2.")
+    X2 = 0
+    for i in range(r):
+        X2+=((p_i[i]-(l_aper*p)) ** 2)/(l_aper*p)
+    print("X2 = ", X2)
+
+def show():
+    n=int(input("Вывести последовательность до: "))
+    if n>k:
+        n=k
+    for i in range(n):
+        print(array[i], end = ', ')
+
+print("Программа генерирует псевдослучайную последовательнсоть из 2500 элементов на интервале (0;1)\n")
+print("Затем расчитывает длины периода и апериодичности  и вероятность попадания в каждый интервал (10 интервалов)\n")
+print("После чего считает ХИ-квадрат для последовательности длиной апериодичности.")
+fillArray()
+periodLength()
+calc_pi()
+calc_X2()
+show()
