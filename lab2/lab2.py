@@ -17,8 +17,8 @@ def fraction(x):
 
 def fillArray():
     # функция для заполнения массива
-    y0=float(input("Введите гамма-нулевое: "))
-    accrs=int(input("Введите количество знаков после запятой: "))
+    y0=0.45864863#float(input("Введите гамма-нулевое: "))
+    accrs=8#int(input("Введите количество знаков после запятой: "))
     for i in range(k):
         array.append(y0)
         y0=(10 ** -accrs)*int((10 ** accrs)*fraction(float(((1-y0) ** 3)*(10 ** accrs)))) #метод середины квадратов

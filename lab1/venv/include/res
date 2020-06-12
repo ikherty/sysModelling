@@ -1,20 +1,22 @@
 k=2500 #число элементов
-r=10 #кол-во интервалов
-p=0.1 #теоретическая вероятность попадания в каждый интервал
+r=12 #кол-во интервалов
+p=1/r #теоретическая вероятность попадания в каждый интервал
 array=[] #массив псевдослучайных чисел
 l_aper=0 #длина апериодичности
 l_per=0 #длина периода
 p_i =[] #количество попаданий в каждый интервал
 X2=0 #хи-вквадрат
-
+from math import *
+import random
 def fraction(x):
     # функция для расчета дробной части
     return x - int(x)
 
 def fillArray():
     # функция для заполнения массива
-    y0=float(input("Введите гамма-нулевое: "))
-    accrs=int(input("Введите количество знаков после запятой: "))
+    y0=0.45864863#float(input("Введите гамма-нулевое: "))
+    print(random.random())
+    accrs=8#int(input("Введите количество знаков после запятой: "))
     for i in range(k):
         array.append(y0)
         y0=(10 ** -accrs)*int((10 ** accrs)*fraction(float(((1-y0) ** 3)*(10 ** accrs)))) #метод середины квадратов
@@ -48,8 +50,8 @@ def calc_pi():
         p_i.append(0)
     print("[ ", end = ' ')
     for i in range(r):
-        for j in range(l_aper):
-            if (array[j]>(i*p) and array[j]<((i+1)*p)):
+        for j in range(k):
+            if (array[j]>(i*p) and array[j]<=((i+1)*p)):
                 p_i[i]+=1
     for i in range(r):
         print(p_i[i], end = ' ')
@@ -59,7 +61,7 @@ def calc_X2():
     print("Рассчет Х2.")
     X2 = 0
     for i in range(r):
-        X2+=((p_i[i]-(l_aper*p)) ** 2)/(l_aper*p)
+        X2+=((p_i[i]-(k*p)) ** 2)/(k*p)
     print("X2 = ", X2)
 
 def show():
@@ -76,4 +78,4 @@ fillArray()
 periodLength()
 calc_pi()
 calc_X2()
-show()
+#show()
